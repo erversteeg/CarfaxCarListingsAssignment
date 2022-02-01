@@ -16,6 +16,9 @@ interface CarDao {
     @Query("SELECT * FROM cars")
     fun getAllCars(): Flowable<List<Car>>
 
+    @Query("SELECT * FROM cars WHERE uid = :uid")
+    fun getCar(uid: Int): Flowable<Car>
+
     @Insert
     fun insert(car: Car)
 }

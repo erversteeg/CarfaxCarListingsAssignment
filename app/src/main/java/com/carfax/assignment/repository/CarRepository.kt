@@ -1,4 +1,4 @@
-package com.carfax.assignment.repo
+package com.carfax.assignment.repository
 
 import android.content.Context
 import android.util.Log
@@ -39,6 +39,10 @@ class CarRepository(context: Context) {
         Completable.fromRunnable {
             carDao.insert(car)
         }.subscribeOn(Schedulers.io()).subscribe()
+    }
+
+    fun getCar(uid: Int): Flowable<Car> {
+        return carDao.getCar(uid)
     }
 
     fun loadAllCars() {

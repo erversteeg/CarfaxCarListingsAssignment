@@ -3,6 +3,7 @@ package com.carfax.assignment.adapter
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.carfax.assignment.R
@@ -24,7 +26,7 @@ import java.text.NumberFormat
 import kotlin.math.roundToInt
 
 
-class CarListingsRecyclerViewAdapter(val fragment: Fragment): RecyclerView.Adapter<CarListingsRecyclerViewAdapter.CarViewHolder>() {
+class CarListingsRecyclerViewAdapter(private val fragment: Fragment): RecyclerView.Adapter<CarListingsRecyclerViewAdapter.CarViewHolder>() {
 
     private var cars = emptyList<Car>()
 
@@ -53,9 +55,7 @@ class CarListingsRecyclerViewAdapter(val fragment: Fragment): RecyclerView.Adapt
 
         holder.yearMakeModelTextView.text = "${car.year} ${car.make} ${car.model}"
         holder.priceTextView.text = "\$${NumberFormat.getInstance().format(car.price.roundToInt())}"
-
-        val mileageDisplayString = "${String.format("%.1fk mi", car.mileage.toFloat() / 1000)}"
-        holder.mileageTextView.text = mileageDisplayString
+        holder.mileageTextView.text = "${String.format("%.1fk mi", car.mileage.toFloat() / 1000)}"
         holder.locationTextView.text = "${car.dealerCity}, ${car.dealerState}"
 
         holder.callDealerButton.setOnClickListener {
@@ -70,7 +70,9 @@ class CarListingsRecyclerViewAdapter(val fragment: Fragment): RecyclerView.Adapt
         }
 
         holder.itemView.setOnClickListener { view ->
-            Snackbar.make(view, "Details", Snackbar.LENGTH_SHORT).show()
+            fragment.findNavController().navigate(R.id.action_car_details_fragment, Bundle().apply {
+                putInt("car_id", car.uid)
+            })
         }
     }
 

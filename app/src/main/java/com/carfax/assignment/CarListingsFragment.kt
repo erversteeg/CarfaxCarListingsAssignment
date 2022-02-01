@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carfax.assignment.adapter.CarListingsRecyclerViewAdapter
 import com.carfax.assignment.databinding.FragmentCarListingsBinding
-import com.carfax.assignment.repo.CarRepository
 import com.carfax.assignment.viewmodel.CarViewModel
-import kotlinx.coroutines.runBlocking
 
 
 class CarListingsFragment : Fragment() {
