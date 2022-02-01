@@ -1,22 +1,26 @@
 package com.carfax.assignment.adapter
 
-import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.carfax.assignment.R
 import com.carfax.assignment.model.Car
 import com.carfax.assignment.viewmodel.CarViewModel
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.text.NumberFormat
+import kotlin.math.roundToInt
 
 
-class CarListingsRecyclerViewAdapter(fragment: Fragment): RecyclerView.Adapter<CarListingsRecyclerViewAdapter.CarViewHolder>() {
+class CarListingsRecyclerViewAdapter(val fragment: Fragment): RecyclerView.Adapter<CarListingsRecyclerViewAdapter.CarViewHolder>() {
 
     private var cars = emptyList<Car>()
 
@@ -41,7 +45,22 @@ class CarListingsRecyclerViewAdapter(fragment: Fragment): RecyclerView.Adapter<C
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
         val car = cars[position]
 
-        holder.titleTextView.text = "${car.make} ${car.model}"
+        Glide.with(fragment).load(car.photoUrl).placeholder(R.drawable.downloading).error(R.drawable.broken_image).centerCrop().into(holder.largePhotoImageView)
+
+        holder.yearMakeModelTextView.text = "${car.year} ${car.make} ${car.model}"
+        holder.priceTextView.text = "\$${NumberFormat.getInstance().format(car.price.roundToInt())}"
+
+        val mileageDisplayString = "${String.format("%.1fk mi", car.mileage.toFloat() / 1000)}"
+        holder.mileageTextView.text = mileageDisplayString
+        holder.locationTextView.text = "${car.dealerCity}, ${car.dealerState}"
+
+        holder.callDealerButton.setOnClickListener { view ->
+            Snackbar.make(view, car.dealerPhoneNumber, Snackbar.LENGTH_SHORT).show()
+        }
+
+        holder.itemView.setOnClickListener { view ->
+            Snackbar.make(view, "Details", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -49,6 +68,13 @@ class CarListingsRecyclerViewAdapter(fragment: Fragment): RecyclerView.Adapter<C
     }
 
     class CarViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val titleTextView: TextView = view.findViewById(R.id.text_view_car_title)
+        val largePhotoImageView: ImageView = view.findViewById(R.id.image_view_photo_large)
+
+        val yearMakeModelTextView: TextView = view.findViewById(R.id.text_view_year_make_model)
+        val priceTextView: TextView = view.findViewById(R.id.text_view_price)
+        val mileageTextView: TextView = view.findViewById(R.id.text_view_mileage)
+        val locationTextView: TextView = view.findViewById(R.id.text_view_location)
+
+        val callDealerButton: Button = view.findViewById(R.id.button_call_dealer)
     }
 }
