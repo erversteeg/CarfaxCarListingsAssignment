@@ -1,11 +1,15 @@
 package com.carfax.assignment.adapter
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -54,8 +58,15 @@ class CarListingsRecyclerViewAdapter(val fragment: Fragment): RecyclerView.Adapt
         holder.mileageTextView.text = mileageDisplayString
         holder.locationTextView.text = "${car.dealerCity}, ${car.dealerState}"
 
-        holder.callDealerButton.setOnClickListener { view ->
-            Snackbar.make(view, car.dealerPhoneNumber, Snackbar.LENGTH_SHORT).show()
+        holder.callDealerButton.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(fragment.requireContext(), android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: ${car.dealerPhoneNumber}"))
+                fragment.requireActivity().startActivity(intent)
+            }
+            else {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel: ${car.dealerPhoneNumber}"))
+                fragment.requireActivity().startActivity(intent)
+            }
         }
 
         holder.itemView.setOnClickListener { view ->

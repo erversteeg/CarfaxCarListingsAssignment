@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="?attr/selectableItemBackground"
-            android:addStatesFromChildren="true">
+            android:background="?attr/selectableItemBackground">
 
             <ImageView
                 android:id="@+id/image_view_photo_large"
@@ -102,7 +101,7 @@
                 android:layout_height="50dp"
                 android:text="CALL DEALER"
                 android:textColor="#FF333333"
-                android:background="@android:color/transparent"/>
+                android:background="?attr/selectableItemBackground"/>
 
         </LinearLayout>
 
