@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/CarListingsFragment">
+
+    <fragment
+        android:id="@+id/CarListingsFragment"
+        android:name="com.carfax.assignment.CarListingsFragment"
+        android:label="@string/car_listings_fragment_label"
+        tools:layout="@layout/fragment_car_listings">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/CarDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CarDetailsFragment"
+        android:name="com.carfax.assignment.CarDetailsFragment"
+        android:label="@string/car_details_fragment_label"
+        tools:layout="@layout/fragment_car_details">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/CarListingsFragment" />
+    </fragment>
+</navigation>
