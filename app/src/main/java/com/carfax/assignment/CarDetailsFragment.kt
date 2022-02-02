@@ -64,8 +64,8 @@ class CarDetailsFragment : Fragment() {
     private fun showCarDetails(car: Car) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.year_make_model_format, car.year, car.make, car.model)
 
-        Glide.with(this).load(car.photoUrl).placeholder(R.drawable.downloading)
-            .error(R.drawable.broken_image).centerCrop().into(binding.imageViewPhotoLarge)
+        Glide.with(this).load(car.photoUrl).placeholder(R.drawable.ic_downloading)
+            .error(R.drawable.ic_broken_image).centerCrop().into(binding.imageViewPhotoLarge)
 
         binding.textViewYearMakeModel.text = getString(R.string.year_make_model_format, car.year, car.make, car.model)
         binding.textViewPrice.text = getString(R.string.localized_price_format, NumberFormat.getInstance().format(car.price.roundToInt()))
