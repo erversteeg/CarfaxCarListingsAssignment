@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.carfax.assignment.adapter.CarListingsRecyclerViewAdapter
 import com.carfax.assignment.databinding.FragmentCarListingsBinding
 import com.carfax.assignment.viewmodel.CarViewModel
@@ -15,9 +17,6 @@ import com.carfax.assignment.viewmodel.CarViewModel
 class CarListingsFragment : Fragment() {
 
     private var _binding: FragmentCarListingsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -39,6 +38,17 @@ class CarListingsFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             adapter = CarListingsRecyclerViewAdapter(this@CarListingsFragment)
+
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (recyclerView.computeVerticalScrollOffset() != 0) {
+                        (activity as AppCompatActivity).supportActionBar?.title = ""
+                    }
+                    else {
+                        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.company_name)
+                    }
+                }
+            })
         }
     }
 

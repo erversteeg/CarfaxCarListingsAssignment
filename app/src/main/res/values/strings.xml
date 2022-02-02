@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">CarListings</string>
+    <string name="company_name">CARFAX</string>
+
     <string name="action_settings">Settings</string>
     <string name="car_listings_fragment_label">CARFAX</string>
+
+    <string name="year_make_model_format">%d %s %s</string>
+    <string name="localized_price_format">$%s</string>
+    <string name="mileage_format">"%.1fk mi"</string>
+    <string name="location_format">%s, %s</string>
+    <string name="call_phone_format">tel: %s</string>
+
+    <string name="call_phone_permission_msg">We would like to request the phone call permission so
+        that when you tap Call Dealer for a car, it will automatically connect you to that
+        dealer.</string>
+    <string name="call_phone_permission_positive_button">Okay</string>
+    <string name="call_phone_permission_negative_button">No Thanks</string>
+
+    <string name="call_phone_permission_not_granted_msg">If you ever want to have auto connected
+        calls, simply navigate to system settings and grant the permission.</string>
+    <string name="call_phone_permission_not_granted_negative_button">Close</string>
 </resources>

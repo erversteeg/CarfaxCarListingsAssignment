@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.carfax.assignment.databinding.ActivityMainBinding
-import com.google.android.material.appbar.AppBarLayout
 
 
 class MainActivity : AppCompatActivity() {
@@ -80,11 +79,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCallPhonePermissionRationale() {
         val alertDialog = AlertDialog.Builder(this).create()
-        alertDialog.setMessage("We would like to request the phone call permission " +
-                "so that when you tap Call Dealer for a car, it will automatically" +
-                " connect you to that dealer.")
+        alertDialog.setMessage(getString(R.string.call_phone_permission_msg))
         alertDialog.setButton(
-            AlertDialog.BUTTON_POSITIVE, "Okay",
+            AlertDialog.BUTTON_POSITIVE, getString(R.string.call_phone_permission_positive_button),
             ({ dialog, _ ->
                 requestPermissionLauncher.launch(android.Manifest.permission.CALL_PHONE)
 
@@ -92,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             })
         )
         alertDialog.setButton(
-            AlertDialog.BUTTON_NEGATIVE, "No Thanks",
+            AlertDialog.BUTTON_NEGATIVE, getString(R.string.call_phone_permission_negative_button),
             ({ dialog, _ ->
                 dialog.dismiss()
             })
@@ -103,15 +100,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCallPhoneNotGrantedDialog() {
         val alertDialog = AlertDialog.Builder(this).create()
-        alertDialog.setMessage("If you ever want to have auto connected calls, simply " +
-                "navigate to system settings and grant the permission.")
+        alertDialog.setMessage(getString(R.string.call_phone_permission_not_granted_msg))
         alertDialog.setButton(
-            AlertDialog.BUTTON_POSITIVE, "Close",
+            AlertDialog.BUTTON_POSITIVE, getString(R.string.call_phone_permission_not_granted_negative_button),
             ({ dialog, _ ->
                 dialog.dismiss()
             })
         )
-
         alertDialog.show()
     }
 
@@ -124,5 +119,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    fun expandAppBarLayout() {
+        val appBarLayout = binding.appBarLayout
+        appBarLayout.setExpanded(true)
     }
 }

@@ -53,18 +53,18 @@ class CarListingsRecyclerViewAdapter(private val fragment: Fragment): RecyclerVi
 
         Glide.with(fragment).load(car.photoUrl).placeholder(R.drawable.downloading).error(R.drawable.broken_image).centerCrop().into(holder.largePhotoImageView)
 
-        holder.yearMakeModelTextView.text = "${car.year} ${car.make} ${car.model}"
-        holder.priceTextView.text = "\$${NumberFormat.getInstance().format(car.price.roundToInt())}"
-        holder.mileageTextView.text = "${String.format("%.1fk mi", car.mileage.toFloat() / 1000)}"
-        holder.locationTextView.text = "${car.dealerCity}, ${car.dealerState}"
+        holder.yearMakeModelTextView.text = fragment.getString(R.string.year_make_model_format, car.year, car.make, car.model)
+        holder.priceTextView.text = fragment.getString(R.string.localized_price_format, NumberFormat.getInstance().format(car.price.roundToInt()))
+        holder.mileageTextView.text = fragment.getString(R.string.mileage_format, car.mileage.toFloat() / 1000)
+        holder.locationTextView.text = fragment.getString(R.string.location_format, car.dealerCity, car.dealerState)
 
         holder.callDealerButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(fragment.requireContext(), android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: ${car.dealerPhoneNumber}"))
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse(fragment.getString(R.string.call_phone_format, car.dealerPhoneNumber)))
                 fragment.requireActivity().startActivity(intent)
             }
             else {
-                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel: ${car.dealerPhoneNumber}"))
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse(fragment.getString(R.string.call_phone_format, car.dealerPhoneNumber)))
                 fragment.requireActivity().startActivity(intent)
             }
         }

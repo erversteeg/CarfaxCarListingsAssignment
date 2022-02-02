@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -54,19 +53,21 @@ class CarDetailsFragment : Fragment() {
         viewModel.getCar(carId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe { car ->
             showCarDetails(car)
         }
+
+        (requireActivity() as MainActivity).expandAppBarLayout()
     }
 
     private fun showCarDetails(car: Car) {
-        (activity as AppCompatActivity).supportActionBar?.title = "${car.year} ${car.make} ${car.model}"
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.year_make_model_format, car.year, car.make, car.model)
 
         Glide.with(this).load(car.photoUrl).placeholder(R.drawable.downloading)
             .error(R.drawable.broken_image).centerCrop().into(binding.imageViewPhotoLarge)
 
-        binding.textViewYearMakeModel.text = "${car.year} ${car.make} ${car.model}"
-        binding.textViewPrice.text = "\$${NumberFormat.getInstance().format(car.price.roundToInt())}"
-        binding.textViewMileage.text = "${String.format("%.1fk mi", car.mileage.toFloat() / 1000)}"
+        binding.textViewYearMakeModel.text = getString(R.string.year_make_model_format, car.year, car.make, car.model)
+        binding.textViewPrice.text = getString(R.string.localized_price_format, NumberFormat.getInstance().format(car.price.roundToInt()))
+        binding.textViewMileage.text = getString(R.string.mileage_format, car.mileage.toFloat() / 1000)
 
-        binding.textViewLocation.text = "${car.dealerCity}, ${car.dealerState}"
+        binding.textViewLocation.text = getString(R.string.location_format, car.dealerCity, car.dealerState)
         binding.textViewExteriorColor.text = car.exteriorColor
         binding.textViewInteriorColor.text = car.interiorColor
         binding.textViewDriveType.text = car.driveType
@@ -77,11 +78,11 @@ class CarDetailsFragment : Fragment() {
 
         binding.buttonCallDealer.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: ${car.dealerPhoneNumber}"))
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse(getString(R.string.call_phone_format, car.dealerPhoneNumber)))
                 requireActivity().startActivity(intent)
             }
             else {
-                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel: ${car.dealerPhoneNumber}"))
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse(getString(R.string.call_phone_format, car.dealerPhoneNumber)))
                 requireActivity().startActivity(intent)
             }
         }
