@@ -37,6 +37,12 @@ class CarDetailsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        (requireActivity() as MainActivity).expandAppBarLayout()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,8 +59,6 @@ class CarDetailsFragment : Fragment() {
         viewModel.getCar(carId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe { car ->
             showCarDetails(car)
         }
-
-        (requireActivity() as MainActivity).expandAppBarLayout()
     }
 
     private fun showCarDetails(car: Car) {
