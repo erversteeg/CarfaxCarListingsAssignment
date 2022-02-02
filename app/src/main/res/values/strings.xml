@@ -20,4 +20,5 @@
     <string name="call_phone_permission_not_granted_msg">If you ever want to have auto connected
         calls, simply navigate to system settings and grant the permission.</string>
     <string name="call_phone_permission_not_granted_negative_button">Close</string>
+    <string name="no_cars">No Cars Yet</string>
 </resources>
