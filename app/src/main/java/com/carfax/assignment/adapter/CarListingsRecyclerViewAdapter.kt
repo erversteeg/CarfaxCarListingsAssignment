@@ -73,7 +73,7 @@ class CarListingsRecyclerViewAdapter(private val fragment: Fragment): RecyclerVi
 
             Glide.with(fragment).load(car.photoUrl).placeholder(R.drawable.ic_downloading).error(R.drawable.ic_broken_image).centerCrop().into(carViewHolder.largePhotoImageView)
 
-            carViewHolder.yearMakeModelTextView.text = fragment.getString(R.string.year_make_model_format, car.year, car.make, car.model)
+            carViewHolder.yearMakeModelTextView.text = fragment.getString(R.string.year_make_model_trim_format, car.year, car.make, car.model, car.trim)
             carViewHolder.priceTextView.text = fragment.getString(R.string.localized_price_format, NumberFormat.getInstance().format(car.price.roundToInt()))
             carViewHolder.mileageTextView.text = fragment.getString(R.string.mileage_format, car.mileage.toFloat() / 1000)
             carViewHolder.locationTextView.text = fragment.getString(R.string.location_format, car.dealerCity, car.dealerState)
