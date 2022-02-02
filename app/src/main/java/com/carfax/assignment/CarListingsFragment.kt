@@ -14,7 +14,7 @@ import com.carfax.assignment.databinding.FragmentCarListingsBinding
 import com.carfax.assignment.viewmodel.CarViewModel
 
 
-class CarListingsFragment : Fragment() {
+class CarListingsFragment : Fragment(), CarListingsRecyclerViewAdapter.ContentListener {
 
     private var _binding: FragmentCarListingsBinding? = null
     private val binding get() = _binding!!
@@ -37,7 +37,11 @@ class CarListingsFragment : Fragment() {
         with(recyclerView) {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            adapter = CarListingsRecyclerViewAdapter(this@CarListingsFragment)
+            val carListingsAdapter = CarListingsRecyclerViewAdapter(this@CarListingsFragment)
+
+            carListingsAdapter.contentListener = this@CarListingsFragment
+
+            adapter = carListingsAdapter
 
             addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -55,5 +59,9 @@ class CarListingsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onContent() {
+        binding.noContentLayout.visibility = View.GONE
     }
 }
