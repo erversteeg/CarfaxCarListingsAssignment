@@ -86,7 +86,7 @@ class CarRepository(context: Context) {
                     }
 
                     override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                        Log.i("Error", "Error")
+                        
                     }
                 })
             }
